@@ -27,6 +27,7 @@ const [formLogin, setFormLogin] = useState<FormLogin>({
     email:"",
     password:""
 })
+//hook para cambiar el estado del mensaje
 const [showMessage, setShowMessage] = useState<ShowMessage>({
     visible:false,
     message:"",
@@ -96,7 +97,7 @@ const handleSignIn= async ()=>{
      onChangeText={(value)=>handleSetValues('password',value)}
      right={<TextInput.Icon icon="eye" onPress={()=>sethiddenPassword(!hiddenPassword)}/>}
     />
-     <Button icon="home" mode="contained" onPress={handleSignIn}>
+     <Button icon="account" mode="contained" onPress={handleSignIn}>
       Iniciar Sesión 
      </Button>
      <Text style={styles.textRedirect}

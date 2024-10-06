@@ -35,10 +35,38 @@ export const styles=StyleSheet.create({
         marginVertical:50,
        
     },
-    headerHome:{
+    header:{
         flexDirection:'row',
         gap:15,
         alignItems:'center'
-    }
+    },
+    icon:{
+        alignItems:"flex-end",
+        flex:1
+    },
+    modal:{
+        padding:20,
+        marginHorizontal:20,
+        backgroundColor:'#fff',
+        borderRadius:10,
+        gap:10
+    },
+    rootListProduct:{
+       marginTop:10,
+        flexDirection:'row',
+        padding:10,
+        alignItems:'center',
+        gap:20
+    },
+    fabProduct: {
+        position: 'absolute',
+        margin: 16,
+        right: 10,
+        bottom: 20,
+      },
+      rootInputsProduct:{
+        flexDirection:'row',
+        gap:35
+      }
 
 })

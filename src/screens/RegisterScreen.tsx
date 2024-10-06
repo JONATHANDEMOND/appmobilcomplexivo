@@ -97,7 +97,7 @@ return (
      onChangeText={(value)=>handleSetValues('password',value)}
      right={<TextInput.Icon icon="eye" onPress={()=>sethiddenPassword(!hiddenPassword)}/>}
     />
-     <Button icon="home" mode="contained" onPress={handleRegister}>
+     <Button icon="account-convert" mode="contained" onPress={handleRegister}>
       Registrar
      </Button>
      <Text style={styles.textRedirect}
