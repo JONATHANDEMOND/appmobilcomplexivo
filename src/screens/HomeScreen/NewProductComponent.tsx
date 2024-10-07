@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Button, Divider, IconButton, Modal,Portal, Snackbar, Text, TextInput } from 'react-native-paper'
 import { styles } from '../../theme/styles';
 import { View } from 'react-native';
-import { dbRealTime } from '../../config/firebaseConfig';
+import { auth, dbRealTime } from '../../config/firebaseConfig';
 import { push, ref, set } from 'firebase/database';
 //interface - Props (propiedades q podemos enviar de un componente padrea un compnente hijo siempre hay q usar inerfaces)
 interface Props{
@@ -11,10 +11,9 @@ interface Props{
 }
 //interface-FormProduct
 interface FormProduct{
-    code: string;
-    nameProduct:string;
+    placa: string;
+    marca:string;
     price:number;
-    stock:number;
     description:string;
 }
 //INTERFACE - PARA MENSAJES
@@ -38,10 +37,9 @@ export const NewProductComponent = ({ showModalProduct, setShowModalProduct }: P
 
     //hook useState: para cambiar el estado del formulario
     const [formProduct, setFormProduct] = useState<FormProduct>({
-        code:'',
-        nameProduct:'',
+        placa:'',
+        marca:'',
         price:0,
-        stock:0,
         description:''
 
 
@@ -54,10 +52,9 @@ export const NewProductComponent = ({ showModalProduct, setShowModalProduct }: P
     ///funcion:  agregar los productos
     const handleSetProduct = async ()=>{
       if (
-        !formProduct.code ||
-        !formProduct.nameProduct ||
+        !formProduct.placa ||
+        !formProduct.marca ||
         !formProduct.price ||
-        !formProduct.stock ||
         !formProduct.description
       ) {
         setShowMessage({
@@ -68,7 +65,7 @@ export const NewProductComponent = ({ showModalProduct, setShowModalProduct }: P
         return;
       }
       //1 crear  EL PATH la referencia qa la BD
-      const dbRef = ref(dbRealTime, "productos");
+      const dbRef = ref(dbRealTime, 'productos/'+ auth.currentUser?.uid);
       ///2. crear una coleccion q agregue los datos en la dbref
       const saveProduct = push(dbRef);
       //3 almacenar los datos en la base de datos
@@ -91,7 +88,7 @@ export const NewProductComponent = ({ showModalProduct, setShowModalProduct }: P
     <Portal>
       <Modal visible={showModalProduct} contentContainerStyle={styles.modal}>
         <View style={styles.header}>
-          <Text variant="headlineSmall">Nuevo Producto</Text>
+          <Text variant="headlineSmall">Nuevo Veihculo</Text>
           <View style={styles.icon}>
             <IconButton icon="alpha-x-circle" 
             size={30} 
@@ -100,14 +97,14 @@ export const NewProductComponent = ({ showModalProduct, setShowModalProduct }: P
         </View>
         <Divider/>
         <TextInput
-        label='Codigo'
+        label='Placa'
         mode='outlined'
-        onChangeText={(value)=>handleSetValues('code',value)}
+        onChangeText={(value)=>handleSetValues('placa',value)}
         />
         <TextInput
-        label='Nombre Producto'
+        label='Marca del Vehiculo'
         mode='outlined'
-        onChangeText={(value)=>handleSetValues('nameProduct',value)}
+        onChangeText={(value)=>handleSetValues('marca',value)}
         />
         <View style={styles.rootInputsProduct}>
         <TextInput
@@ -117,13 +114,6 @@ export const NewProductComponent = ({ showModalProduct, setShowModalProduct }: P
         style={{width:'45%'}}
         onChangeText={(value)=>handleSetValues('price',value)}
         />
-        <TextInput
-        label='Stock'
-        mode='outlined'
-        keyboardType='numeric'
-        style={{width:'45%'}}
-        onChangeText={(value)=>handleSetValues('stock',value)}
-        />
         </View>
         <TextInput
         label='Description'
@@ -132,7 +122,7 @@ export const NewProductComponent = ({ showModalProduct, setShowModalProduct }: P
         numberOfLines={3}
         onChangeText={(value)=>handleSetValues('description',value)}
         />
-        <Button mode='contained' onPress={handleSetProduct}>Agregar</Button>
+        <Button mode='contained' onPress={handleSetProduct} icon='motorbike' >Agregar</Button>
       </Modal>
       <Snackbar
         visible={showMessage.visible}

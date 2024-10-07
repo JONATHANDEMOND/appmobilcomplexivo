@@ -8,26 +8,25 @@ import { auth } from '../config/firebaseConfig';
 import { View } from 'react-native';
 import { ActivityIndicator, MD2Colors } from 'react-native-paper';
 import { styles } from '../theme/styles';
+import { DetailProductScreen } from '../screens/HomeScreen/DetailProductScreen';
 
 //interface - rotts (StackScreen)
 interface Routes{
     name:string,
     screen:()=> JSX.Element; //componente react 
+    headerShow?: boolean;
+    title?:string;
 }
-//arreglo - routes cuando el usuario no este autenticado 
-const routeNoAuth: Routes[] = [
+//arreglo - con rutas de la app
+const routes: Routes[] = [
     {name:'Login',screen:LoginScreen},
-    {name:'Register', screen:RegisterScreen}
+    {name:'Register',screen:RegisterScreen},
+    {name:'Home', screen:HomeScreen},
+    {name:'Detail',screen:DetailProductScreen, headerShow: true, title: "Detalle Productos"}
+
 ];
-// arreglo - routes cuando el usuario este autenticado
-const routeSiAuth: Routes[]=[
-    {name:'Home', screen:HomeScreen}
-]
 
 const Stack = createStackNavigator();
-
-
-
 
 export const StackNavigator = () => {
     //hook useState: Verificar si esta autenticado o  no
@@ -62,26 +61,19 @@ useEffect(()=>{
         <ActivityIndicator animating={true} size={35}/>
     </View>
     ):(
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName={isAuth ? 'Home' : 'Login'}>
         {
-            !isAuth ? 
-            routeNoAuth.map((item, index)=>(
+           
+            routes.map((item, index)=>(
                 <Stack.Screen key={index}
                 name={item.name} 
-                options={{headerShown: false}} 
-                component={item.screen} />
-            ))
-            :
-            routeSiAuth.map((item, index)=>(
-                <Stack.Screen key={index}
-                name={item.name} 
-                options={{headerShown: false}} 
+                options={{headerShown: item.headerShow ?? false, title:item.headerShow? item.title: ""}} 
                 component={item.screen} />
                 
             ))
         }
       
-      {/*<Stack.Screen name="Register" options={{headerShown: false}} component={RegisterScreen} />*/}
+     
     </Stack.Navigator>
 )}
     </>

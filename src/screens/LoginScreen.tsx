@@ -64,7 +64,8 @@ const handleSignIn= async ()=>{
         formLogin.email,
         formLogin.password
     );
-        //console.log(response);
+       //Navegar al home
+       navigation.dispatch(CommonActions.navigate({name:'Home'}))
         
 
 }catch(e){
