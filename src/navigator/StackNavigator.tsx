@@ -22,7 +22,7 @@ const routes: Routes[] = [
     {name:'Login',screen:LoginScreen},
     {name:'Register',screen:RegisterScreen},
     {name:'Home', screen:HomeScreen},
-    {name:'Detail',screen:DetailProductScreen, headerShow: true, title: "Detalle Productos"}
+    {name:'Detail',screen:DetailProductScreen, headerShow: true, title: "Detalle Vehiculos"}
 
 ];
 
